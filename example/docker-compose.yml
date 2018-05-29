@@ -1,0 +1,29 @@
+version: "3.3"
+
+
+services:
+
+  database:
+    image: mariadb:10.3
+    ports:
+      - 63306:3306
+    volumes:
+      - sqlprinter-database-data:/var/lib/mysql/data
+      #- ./mysql-config:/etc/mysql/conf.d
+    networks:
+      - default
+    # https://github.com/docker-library/mysql/pull/14#issuecomment-117348915
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+    environment:
+      MYSQL_ROOT_PASSWORD: root1234
+      MYSQL_DATABASE: sqlprinter
+      MYSQL_USER: sqlprinter-db-user
+      MYSQL_PASSWORD: 1234
+    restart: unless-stopped
+
+
+volumes:
+  sqlprinter-database-data:
